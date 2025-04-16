@@ -13,15 +13,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.baitap.videoshort_firebase.service.UploadCallback;
+import com.baitap.videoshort_firebase.service.UploadService;
+import com.baitap.videoshort_firebase.service.impl.CloudinaryUploadService;
 import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
-import java.util.Map;
 
 public class UploadActivity extends AppCompatActivity {
+    private UploadService uploadService;
     Cloudinary cloudinary;
     private static final int PICK_VIDEO_REQUEST = 1;
     private Uri videoUri;
@@ -37,12 +39,7 @@ public class UploadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_upload);
 
         mAuth = FirebaseAuth.getInstance();
-
-        cloudinary = new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "dcxgx3ott",
-                "api_key", "353197162924271",
-                "api_secret", "czNR6EQoPSG0_P3P_Sp1bKMWVdM"
-        ));
+        uploadService = new CloudinaryUploadService();
 
         btnChooseVideo = findViewById(R.id.btnChooseVideo);
         btnUploadVideo = findViewById(R.id.btnUploadVideo);
@@ -52,7 +49,7 @@ public class UploadActivity extends AppCompatActivity {
 
         btnUploadVideo.setOnClickListener(v -> {
             if (videoUri != null) {
-                uploadVideoToFirebase();
+                uploadVideoToService();
             } else {
                 Toast.makeText(this, "Vui lòng chọn video", Toast.LENGTH_SHORT).show();
             }
@@ -78,7 +75,7 @@ public class UploadActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadVideoToFirebase() {
+    private void uploadVideoToService() {
         uploadProgressBar.setVisibility(View.VISIBLE);
 
         FirebaseUser user = mAuth.getCurrentUser();
@@ -90,33 +87,27 @@ public class UploadActivity extends AppCompatActivity {
 
         String userId = user.getUid();
         String fileName = "video_" + System.currentTimeMillis();
+        File file = new File(getRealPathFromURI(videoUri));
 
-        new Thread(() -> {
-            try {
-                File file = new File(getRealPathFromURI(videoUri));
-
-                Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.asMap(
-                        "resource_type", "video",
-                        "public_id", "Android/" + userId + "/" + fileName,
-                        "overwrite", true
-                ));
-
-                String videoUrl = uploadResult.get("secure_url").toString();
-
+        uploadService.uploadVideo(file, "Android/" + userId + "/" + fileName, new UploadCallback() {
+            @Override
+            public void onUploadSuccess(String videoUrl) {
                 runOnUiThread(() -> {
                     uploadProgressBar.setVisibility(View.GONE);
-                    Toast.makeText(this, "Upload thành công!\n" + videoUrl, Toast.LENGTH_LONG).show();
-                });
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                runOnUiThread(() -> {
-                    uploadProgressBar.setVisibility(View.GONE);
-                    Toast.makeText(this, "Lỗi upload: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UploadActivity.this, "Upload thành công!\n" + videoUrl, Toast.LENGTH_LONG).show();
                 });
             }
-        }).start();
+
+            @Override
+            public void onUploadFailure(String errorMessage) {
+                runOnUiThread(() -> {
+                    uploadProgressBar.setVisibility(View.GONE);
+                    Toast.makeText(UploadActivity.this, "Lỗi upload: " + errorMessage, Toast.LENGTH_LONG).show();
+                });
+            }
+        });
     }
+
     private String getRealPathFromURI(Uri contentUri) {
         String[] proj = {MediaStore.Video.Media.DATA};
         Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
