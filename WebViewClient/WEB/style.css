@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(to bottom, #98c4de, #d4c343);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+  
+  .iot {
+    color: #444;
+  }
+  
+  .star {
+    color: red;
+  }
+  
+  .icon {
+    color: #3366cc;
+    font-size: 1em;
+    margin-left: 5px;
+  }
+  
+  .login-box {
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 8px;
+  }
+  
+  .login-box h2 {
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #fff;
+    background: transparent;
+    color: #fff;
+    outline: none;
+  }
+  
+  .input-group input::placeholder {
+    color: #eee;
+  }
+  
+  .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #fff;
+    margin-bottom: 15px;
+  }
+  
+  .options a {
+    color: #cceeff;
+    text-decoration: none;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #c0392b;
+  }
+  
+  footer {
+    margin-top: 20px;
+    color: #fff;
+    font-size: 0.85em;
+  }
+  
