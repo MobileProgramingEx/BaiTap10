@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("LoginActivity", "onComplete được gọi");
                             if (task.isSuccessful()) {
                                 Log.d("LoginActivity", "Đăng nhập thành công");
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {
