@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "484824181662",
+    "firebase_url": "https://videoshortfirebase-815bb-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "videoshortfirebase-815bb",
+    "storage_bucket": "videoshortfirebase-815bb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484824181662:android:f34de2b02d7e04bd7f448f",
+        "android_client_info": {
+          "package_name": "com.baitap.videoshort_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2iQDACKuRXEh4DFPUNfsxzYbX_j7V43k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
